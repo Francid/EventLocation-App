@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/categoryPage"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Events Categories"
+            android:paddingBottom="40dp"
+            android:gravity="center"
+            android:textStyle="bold" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btCategory"
+                android:layout_width="120dp"
+                android:layout_height="150dp"
+                android:text="MUSIC"/>
+
+            <Button
+                android:layout_width="120dp"
+                android:layout_height="150dp"
+                android:text="CULTURAL"
+                android:id="@+id/btCultural" />
+
+            <Button
+                android:layout_width="120dp"
+                android:layout_height="150dp"
+                android:text="SCIENCE"
+                android:id="@+id/btScience" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="120dp"
+                android:layout_height="150dp"
+                android:text="BUSINESS"
+                android:id="@+id/btBusiness" />
+
+            <Button
+                android:layout_width="120dp"
+                android:layout_height="150dp"
+                android:text="ARTS"
+                android:id="@+id/btArts" />
+
+            <Button
+                android:layout_width="120dp"
+                android:layout_height="150dp"
+                android:text="SPORTS"
+                android:id="@+id/btSports" />
+        </TableRow>
+    </LinearLayout>
+
+</LinearLayout>

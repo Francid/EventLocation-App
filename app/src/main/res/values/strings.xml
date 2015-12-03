@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Lopvent</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="hintLocation">Enter Location</string>
+    <string name="btNext">NEXT</string>
+
+    <string name="API_KEY">AIzaSyDlqC1jbJZn5u1Sc8NMoNhhMz8gKzmD3vM</string>
+</resources>
