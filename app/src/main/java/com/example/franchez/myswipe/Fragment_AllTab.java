@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -19,7 +20,8 @@ import java.util.ArrayList;
 public class Fragment_AllTab extends Fragment {
 
     EventList_Adapter adapter;
-
+    Database_Class db;
+    String callID = null;
     private android.support.v7.app.ActionBar actionBar;
     ListView listView;
     @Override
@@ -27,13 +29,13 @@ public class Fragment_AllTab extends Fragment {
                              Bundle savedInstanceState) {
         /*Get which button or drawer is click*/
         Bundle bundle = getArguments();
-        String callID = bundle.getString("ClickID");
+        callID = bundle.getString("ClickID");
 
         View android = inflater.inflate(R.layout.fragment_tabs, container, false);
 
 //        tabPagerAdapter = new TabPagerAdapter((getActivity()).getSupportFragmentManager(),"Test");
         listView = (ListView)android.findViewById(R.id.listAndroid);
-
+        db = new Database_Class(getContext());
         switch (callID){
 
             case "Music":
@@ -69,9 +71,19 @@ public class Fragment_AllTab extends Fragment {
                 createDetailFragment();
             }
         });
+
+        /*Set a listener when an item is clicked for a long time*/
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                String e = (String)parent.getItemAtPosition(position);
+                db.setSavedEvents(e);
+                return true;
+            }
+        });
         return android;
     }
-    //
+    //Open a Detail Fragment of the item clicked
     private void createDetailFragment(){
 
         Fragment detailFragment = null;
@@ -94,13 +106,14 @@ public class Fragment_AllTab extends Fragment {
 
     /* Generate data for the events*/
     private ArrayList<String> eventGenerateData(){
-        ArrayList<String> events = new ArrayList<String>();
-        events.add("Event 1");
+        /*ArrayList<String> events = new ArrayList<String>();
+        events = db.getEvents();*/
+        /*events.add("Frisky Friday's");
         events.add("Event 2");
         events.add("Event 3");
         events.add("Event 4");
-        events.add("Event 5");
-        return events;
+        events.add("Event 5");*/
+        return db.getEvents(callID);
     }
 
     /*Generate data for the places*/

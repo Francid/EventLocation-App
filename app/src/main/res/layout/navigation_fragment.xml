@@ -26,21 +26,15 @@
 
             <Button
                 android:id="@+id/btCategory"
-                android:layout_width="120dp"
+                android:layout_width="170dp"
                 android:layout_height="150dp"
                 android:text="MUSIC"/>
 
             <Button
-                android:layout_width="120dp"
+                android:layout_width="170dp"
                 android:layout_height="150dp"
                 android:text="CULTURAL"
                 android:id="@+id/btCultural" />
-
-            <Button
-                android:layout_width="120dp"
-                android:layout_height="150dp"
-                android:text="SCIENCE"
-                android:id="@+id/btScience" />
         </TableRow>
 
         <TableRow
@@ -48,19 +42,30 @@
             android:layout_height="wrap_content">
 
             <Button
-                android:layout_width="120dp"
+                android:layout_width="170dp"
+                android:layout_height="150dp"
+                android:text="SCIENCE"
+                android:id="@+id/btScience" />
+
+            <Button
+                android:layout_width="170dp"
                 android:layout_height="150dp"
                 android:text="BUSINESS"
                 android:id="@+id/btBusiness" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <Button
-                android:layout_width="120dp"
+                android:layout_width="170dp"
                 android:layout_height="150dp"
                 android:text="ARTS"
                 android:id="@+id/btArts" />
 
             <Button
-                android:layout_width="120dp"
+                android:layout_width="170dp"
                 android:layout_height="150dp"
                 android:text="SPORTS"
                 android:id="@+id/btSports" />
