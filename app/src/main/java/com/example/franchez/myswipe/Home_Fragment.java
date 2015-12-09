@@ -45,6 +45,8 @@ public class Home_Fragment extends Fragment {
         homeView = homeFrag;
         changeLocation();
         setListviewData();
+
+        //LocationDetection_Class detection_class = new LocationDetection_Class(homeFrag.getContext());
         return homeFrag;
     }
 

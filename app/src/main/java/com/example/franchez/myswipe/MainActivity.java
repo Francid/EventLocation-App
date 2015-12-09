@@ -12,8 +12,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toolbar;
 
@@ -24,11 +26,17 @@ public class MainActivity extends ActionBarActivity {
     private DrawerLayout mDrawer;
     private NavigationView nvDrawer;
     private Bundle bundle;
+    ActionBarDrawerToggle mDrawerToggle;
+
+    private CharSequence mDrawerTitle;
+    private CharSequence mTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mTitle = mDrawerTitle = getTitle();
 
         Intent in = getIntent();
         bundle = new Bundle();
@@ -43,8 +51,35 @@ public class MainActivity extends ActionBarActivity {
 
         /* Creating the drawer from this point**/
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         nvDrawer = (NavigationView) findViewById(R.id.nvView);
         setupDrawerContent(nvDrawer);
+        setupDrawToggle();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+    }
+    /* Drawer Toggle using the App icon**/
+    private void setupDrawToggle(){
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,
+                mDrawer,
+                R.drawable.ic_drawer,
+                R.string.drawer_open,
+                R.string.drawer_close
+        ){
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                getSupportActionBar().setTitle(mTitle);
+            }
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                getSupportActionBar().setTitle(mDrawerTitle);
+            }
+        };
+        mDrawer.setDrawerListener(mDrawerToggle);
     }
 
     private void createHomeFragment(){
@@ -129,26 +164,22 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-/*        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
-        }*/
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawer.openDrawer(GravityCompat.START);
-                return true;
         }
-
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        mTitle = title;
+        getSupportActionBar().setTitle(mTitle);
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
     }
 }
