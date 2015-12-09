@@ -3,9 +3,12 @@ package com.example.franchez.myswipe;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -22,6 +25,7 @@ public class Home_Fragment extends Fragment {
     private CheckBox chkDefault;
     private View homeView;
     private Bundle bundle;
+    private android.support.v7.app.ActionBar actionBar;
 
     EventList_Adapter adapter;
 
@@ -64,6 +68,34 @@ public class Home_Fragment extends Fragment {
 
         adapter = new EventList_Adapter(homeView.getContext(),generateData());
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                createDetailFragment();
+            }
+        });
+    }
+
+    //Open a Detail Fragment of the item clicked
+    private void createDetailFragment(){
+
+        Fragment detailFragment = null;
+        Class detailClass = Fragment_Details.class;
+        try {
+            detailFragment = (Fragment)detailClass.newInstance();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
+
+        if(actionBar.isShowing()){
+            actionBar.removeAllTabs();
+        }
+        FragmentManager fragmentManager = (getActivity()).getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.fragmentContent,detailFragment).commit();
+        (getActivity()).setTitle("Details");
     }
 
     /*Generate data for the places*/
