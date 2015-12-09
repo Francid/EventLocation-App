@@ -41,12 +41,13 @@ public class WelcomePage_Activity extends AppCompatActivity
         implements ConnectionCallbacks, OnConnectionFailedListener {
 
     private static EditText edTxtLocation;
+    private static Bundle bundle;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
     private static final String TAG = WelcomePage_Activity.class.getSimpleName();
     private GoogleApiClient mGoogleApiClient;
     private Location userLocation;
 
-    Gson gson;
+    /*Gson gson;
     AsyncHttpClient client;
     EventBrite_Class eventBrite_class;
     List<EventBrite_Class.EventsEntity> cEvent;
@@ -56,7 +57,7 @@ public class WelcomePage_Activity extends AppCompatActivity
     String categoryUrl = null;
     EventBrite_Category_Class eventCategoryClass;
     List<EventBrite_Category_Class.CategoriesEntity> categoryEntity;
-    Database_Class db;
+    Database_Class db;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +65,7 @@ public class WelcomePage_Activity extends AppCompatActivity
         setContentView(R.layout.activity_welcomepage);
 
         edTxtLocation = (EditText) findViewById(R.id.edTxtLocation);
+        bundle = new Bundle();
 
         /*Call the buildApiClient only if service is available*/
         if (checkDevicePlayService()) {
@@ -77,8 +79,8 @@ public class WelcomePage_Activity extends AppCompatActivity
         Toast.makeText(this,"Events row count: " + rowCount, Toast.LENGTH_LONG).show();*/
 
         /*Start The Background Process*/
-//        Intent bIntent = new Intent(Intent.ACTION_SYNC,null,this,BackgroudRun_Service.class);
-//        startService(bIntent);
+        Intent bIntent = new Intent(Intent.ACTION_SYNC,null,this,BackgroudRun_Service.class);
+        startService(bIntent);
 
         /*client = new AsyncHttpClient();
         db = new Database_Class(this);
@@ -91,7 +93,7 @@ public class WelcomePage_Activity extends AppCompatActivity
     }
 
     //===============================================================================================================
-    private void eventHandler()throws IOException {
+/*    private void eventHandler()throws IOException {
         //Get The Events from the EventBrite API Using the Loopj to make an HTTP Get request
 
         Log.i("MY Background","Service Started");
@@ -166,7 +168,7 @@ public class WelcomePage_Activity extends AppCompatActivity
         Log.i("CATEGORY_Handler", "Finish Category Handler and Data Insert.....");
     }
 
-    //=================================================================================================================
+    //=================================================================================================================*/
     /* 1. Create Google API Client object
 * */
     protected synchronized void buildApiClient() {
@@ -252,9 +254,11 @@ public class WelcomePage_Activity extends AppCompatActivity
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 if (uChkDefLoc.isChecked()) {
+                    edTxtLocation.setEnabled(false);
                     displayUserLocation();
                 } else {
                     edTxtLocation.getText().clear();
+                    edTxtLocation.setEnabled(true);
                 }
             }
         });
@@ -298,7 +302,9 @@ public class WelcomePage_Activity extends AppCompatActivity
 
     public void startNextActivity(View view){
 
+        bundle.putString("MyLocation",edTxtLocation.getText().toString());
         Intent intent = new Intent(this,MainActivity.class);
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 

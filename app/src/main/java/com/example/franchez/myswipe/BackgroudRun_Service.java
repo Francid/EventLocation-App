@@ -23,18 +23,18 @@ import cz.msebera.android.httpclient.Header;
  */
 public class BackgroudRun_Service extends IntentService {
 
-    String url = "https://www.eventbriteapi.com/v3/events/search/?location.latitude=43.7858101&location.longitude=-79.2272541&start_date.keyword=next_month&token=5EVVG7JA2ON7UFJKMTY3";
+
     Gson gson;
-    AsyncHttpClient client;
     EventBrite_Class eventBrite_class;
     List<EventBrite_Class.EventsEntity> cEvent;
-    String venueUrl = null;
-    String venueId = null;
-    EventBrite_Venue_Class eventVenueClass;
-    String categoryUrl = null;
     EventBrite_Category_Class eventCategoryClass;
     List<EventBrite_Category_Class.CategoriesEntity> categoryEntity;
+    EventBrite_Venue_Class eventVenueClass;
+    String venueUrl = null;
+    String venueId = null;
     Database_Class db;
+
+    private static AsyncHttpClient client;
 
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
@@ -52,18 +52,10 @@ public class BackgroudRun_Service extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
-       client = new AsyncHttpClient();
         db = new Database_Class(this);
-/*
-        try {
-            categoryHandler();
-            eventHandler();
-        }catch (Exception e){
-        }*/
-
-        Log.i("CATEGORY_Handler", "Starting Category HTTP Get request......");
         /*Using the Loopj to make an HTTP Get request*/
-        categoryUrl = "https://www.eventbriteapi.com/v3/categories/?token=I7YWVEEWKICBN26PI5ES";
+        client = new AsyncHttpClient();
+        String categoryUrl = "https://www.eventbriteapi.com/v3/categories/?token=I7YWVEEWKICBN26PI5ES";
         client.get(categoryUrl, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -74,7 +66,6 @@ public class BackgroudRun_Service extends IntentService {
                 for (EventBrite_Category_Class.CategoriesEntity item : categoryEntity) {
                     db.insertCategory(item);
                 }
-                System.out.print("Start Insert to the Category Database");
             }
 
             @Override
@@ -82,10 +73,9 @@ public class BackgroudRun_Service extends IntentService {
             }
         });
 
-        Log.i("CATEGORY_Handler", "Finish Category Handler and Data Insert.....");
 //  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        Log.i("MY Background", "Service Started");
 
+        String url = "https://www.eventbriteapi.com/v3/events/search/?venue.city=Toronto&start_date.keyword=this_month&token=5EVVG7JA2ON7UFJKMTY3";
         client.get(url, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -113,7 +103,6 @@ public class BackgroudRun_Service extends IntentService {
 
                         @Override
                         public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
                         }
                     });
                     Log.i("VENUE_HANDLER", "Finish the Venue Handler and Data Insert............");
@@ -131,8 +120,8 @@ public class BackgroudRun_Service extends IntentService {
 
     }
 
-    private void eventHandler() throws IOException {
-                /*Get The Events from the EventBrite API Using the Loopj to make an HTTP Get request*/
+  /*  private void eventHandler() throws IOException {
+                *//*Get The Events from the EventBrite API Using the Loopj to make an HTTP Get request*//*
         Log.i("MY Background", "Service Started");
 
         client.get(url, new AsyncHttpResponseHandler() {
@@ -161,7 +150,7 @@ public class BackgroudRun_Service extends IntentService {
     private void venueHandler(String id) {
 
         Log.i("VENUE_HANDLER", "Starting the Venue HTTP Get Request ......");
-        /*Using the Loopj to make an HTTP Get request*/
+        *//*Using the Loopj to make an HTTP Get request*//*
         venueUrl = "https://www.eventbriteapi.com/v3/venues/" + id + "/?token=I7YWVEEWKICBN26PI5ES";
         client.get(venueUrl, new AsyncHttpResponseHandler() {
             @Override
@@ -185,7 +174,7 @@ public class BackgroudRun_Service extends IntentService {
     private void categoryHandler() throws IOException {
 
         Log.i("CATEGORY_Handler", "Starting Category HTTP Get request......");
-        /*Using the Loopj to make an HTTP Get request*/
+        *//*Using the Loopj to make an HTTP Get request*//*
         categoryUrl = "https://www.eventbriteapi.com/v3/categories/?token=I7YWVEEWKICBN26PI5ES";
         client.get(categoryUrl, new AsyncHttpResponseHandler() {
             @Override
@@ -206,5 +195,5 @@ public class BackgroudRun_Service extends IntentService {
         });
 
         Log.i("CATEGORY_Handler", "Finish Category Handler and Data Insert.....");
-    }
+    }*/
 }

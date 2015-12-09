@@ -40,7 +40,9 @@ public class Database_Class extends SQLiteOpenHelper {
             + "LocationID    TEXT PRIMARY KEY, "
             + "LocationName  TEXT, "
             + "LocationAdd   TEXT, "
-            + "LocationCity  TEXT "
+            + "LocationCity  TEXT, "
+            + "Latitude      TEXT,"
+            + "Longitude     TEXT "
             + " )";
 
     //Create eventTable statement
@@ -52,7 +54,6 @@ public class Database_Class extends SQLiteOpenHelper {
             + "EventDate    TEXT, "
             + "EventEndDate TEXT, "
             + "EventDescription TEXT, "
-            + "EventRating  TEXT, "
             + "EventUrl     TEXT, "
             + "ImageUrl     TEXT, "
             + "CategoryID   INTEGER, "
@@ -69,7 +70,6 @@ public class Database_Class extends SQLiteOpenHelper {
             + "PlaceDescription TEXT, "
             + "PlaceUrl         TEXT, "
             + "PlaceImageUrl    TEXT, "
-            + "PlaceRating  NUMERIC, "
             + "FOREIGN KEY(PlaceLocation) REFERENCES " + LOCATION_TABLE + " (LocationID) "
             +" )";
 
@@ -77,13 +77,14 @@ public class Database_Class extends SQLiteOpenHelper {
             + " ( "
             + "SavedID      INTEGER PRIMARY KEY, "
             + "SavedName    TEXT, "
-            + "SavedLocation TEXT, "
+            + "SavedLocationID TEXT, "
             + "SavedDate    TEXT, "
             + "SavedEndDate TEXT, "
             + "SavedDescription TEXT, "
             + "SavedUrl     TEXT, "
             + "SavedImageUrl     TEXT, "
-            + "SavedCategory   TEXT "
+            + "SavedCategory   TEXT, "
+            + "FOREIGN KEY(SavedLocationID) REFERENCES " + LOCATION_TABLE + " (LocationID) "
             + " )";
     public Database_Class(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -114,6 +115,9 @@ public class Database_Class extends SQLiteOpenHelper {
         values.put("LocationName", venue.getName());
         values.put("LocationAdd", venuAdddr.getAddress_1());
         values.put("LocationCity", venuAdddr.getCity());
+        values.put("Latitude", venuAdddr.getLatitude());
+        values.put("Longitude", venuAdddr.getCity());
+
 
         db.insert(LOCATION_TABLE, null, values);
         db.close();
@@ -138,6 +142,7 @@ public class Database_Class extends SQLiteOpenHelper {
         EventBrite_Class.EventsEntity.NameEntity name = events.getName();
         EventBrite_Class.EventsEntity.StartEntity startDate = events.getStart();
         EventBrite_Class.EventsEntity.EndEntity endDate = events.getEnd();
+        EventBrite_Class.EventsEntity.LogoEntity logoEntity = events.getLogo();
         EventBrite_Class.EventsEntity.DescriptionEntity eventDes = events.getDescription();
 
         ContentValues values = new ContentValues();
@@ -147,9 +152,8 @@ public class Database_Class extends SQLiteOpenHelper {
         values.put("EventDate",startDate.getLocal());
         values.put("EventEndDate",endDate.getLocal());
         values.put("EventDescription",eventDes.getText());
-        values.put("EventRating", "TBD");
         values.put("EventUrl",events.getUrl());
-        values.put("ImageUrl", (String)events.getLogo_id());
+        values.put("ImageUrl", logoEntity.getUrl());
         values.put("CategoryID",(String)events.getCategory_id());
 
         db.insert(EVENT_TABLE,null,values);
@@ -157,7 +161,7 @@ public class Database_Class extends SQLiteOpenHelper {
     }
 
     protected int getEventsCount(){
-        String countQuery = "SELECT * FROM " + EVENT_TABLE ;
+        String countQuery = "SELECT * FROM " + CATEGORY_TABLE ;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery,null);
         int count = cursor.getCount();

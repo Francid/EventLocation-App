@@ -106,13 +106,6 @@ public class Fragment_AllTab extends Fragment {
 
     /* Generate data for the events*/
     private ArrayList<String> eventGenerateData(){
-        /*ArrayList<String> events = new ArrayList<String>();
-        events = db.getEvents();*/
-        /*events.add("Frisky Friday's");
-        events.add("Event 2");
-        events.add("Event 3");
-        events.add("Event 4");
-        events.add("Event 5");*/
         return db.getEvents(callID);
     }
 

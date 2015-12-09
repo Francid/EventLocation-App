@@ -23,12 +23,18 @@ public class MainActivity extends ActionBarActivity {
     android.support.v7.app.ActionBar actionBar;
     private DrawerLayout mDrawer;
     private NavigationView nvDrawer;
-
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent in = getIntent();
+        bundle = new Bundle();
+        Bundle mbundle = in.getExtras();
+        String welLoc = mbundle.getString("MyLocation");
+        bundle.putString("MyLocation",welLoc);
 
         Tab = (CustomViewPager) findViewById(R.id.pager);
         actionBar = getSupportActionBar();
@@ -47,6 +53,7 @@ public class MainActivity extends ActionBarActivity {
         Class homeclass = Home_Fragment.class;
         try {
             homefragment = (Fragment)homeclass.newInstance();
+            homefragment.setArguments(bundle);
         }catch (Exception e){
             e.printStackTrace();
         }
