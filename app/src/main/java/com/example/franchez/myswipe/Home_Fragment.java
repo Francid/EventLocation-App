@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -50,6 +51,8 @@ public class Home_Fragment extends Fragment {
         return homeFrag;
     }
 
+    /*Listen to the checkbox if checked or not
+    * enables or disable the Edittext if checkbox is checked or not*/
     private void changeLocation(){
 
         chkDefault.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -109,5 +112,16 @@ public class Home_Fragment extends Fragment {
         item.add("PLaces 4");
         item.add("PLaces 5");
         return item;
+    }
+
+    private void searchEvents(){
+        Button btReload = (Button)homeView.findViewById(R.id.btReload);
+        btReload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String userEntry = editTextLocation.getText().toString();
+
+            }
+        });
     }
 }

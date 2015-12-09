@@ -34,7 +34,7 @@ public class BackgroudRun_Service extends IntentService {
     String venueId = null;
     Database_Class db;
 
-    private static AsyncHttpClient client;
+    private final AsyncHttpClient client = new SyncHttpClient();
 
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
@@ -54,7 +54,7 @@ public class BackgroudRun_Service extends IntentService {
 
         db = new Database_Class(this);
         /*Using the Loopj to make an HTTP Get request*/
-        client = new AsyncHttpClient();
+
         String categoryUrl = "https://www.eventbriteapi.com/v3/categories/?token=I7YWVEEWKICBN26PI5ES";
         client.get(categoryUrl, new AsyncHttpResponseHandler() {
             @Override
