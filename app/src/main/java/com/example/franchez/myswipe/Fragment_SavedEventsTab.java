@@ -22,6 +22,8 @@ public class Fragment_SavedEventsTab extends Fragment {
     EventList_Adapter adapter;
     Database_Class db;
     private android.support.v7.app.ActionBar actionBar;
+    private Bundle bundle;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -30,12 +32,14 @@ public class Fragment_SavedEventsTab extends Fragment {
 //        ((TextView)android.findViewById(R.id.textView)).setText("Eevents Saved");
         listView = (ListView)android.findViewById(R.id.listAndroid);
         db = new Database_Class(getContext());
+        bundle = new Bundle();
         adapter = new EventList_Adapter(getContext(),savedDataGenerate());
 
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                bundle.putString("EventName",parent.getItemAtPosition(position).toString());
                 createDetailFragment();
             }
         });
@@ -66,6 +70,7 @@ public class Fragment_SavedEventsTab extends Fragment {
         Class detailClass = Fragment_Details.class;
         try {
             detailFragment = (Fragment)detailClass.newInstance();
+            detailFragment.setArguments(bundle);
         }catch (Exception e){
             e.printStackTrace();
         }

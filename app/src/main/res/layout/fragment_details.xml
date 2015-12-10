@@ -13,28 +13,34 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="NAME: "/>
+        android:text="NAME: "
+        android:id="@+id/detailName"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="LOCATION: "/>
+        android:text="LOCATION: "
+        android:id="@+id/detailLocation"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="DATE: "/>
+        android:text="DATE: "
+        android:id="@+id/detailDate"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CATEGORY: "/>
+        android:text="CATEGORY: "
+        android:id="@+id/detailCategory"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="URL: "/>
+        android:text="URL: "
+        android:id="@+id/detailUrl"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="20dp"
-        android:text="DESCRIPTION: "/>
+        android:text="DESCRIPTION: "
+        android:id="@+id/detailDescription"/>
 
     <View
         android:layout_width="match_parent"
