@@ -71,7 +71,7 @@ public class Home_Fragment extends Fragment {
     private void setListviewData(){
         ListView listView = (ListView)homeView.findViewById(R.id.homeLstVwItems);
 
-        adapter = new EventList_Adapter(homeView.getContext(),generateData(),null);
+        adapter = new EventList_Adapter(homeView.getContext(),generateData(),null,null);
 
         listView.setAdapter(adapter);
 

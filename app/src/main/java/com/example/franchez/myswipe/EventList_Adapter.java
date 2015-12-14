@@ -12,8 +12,13 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Franchez on 2015-11-24.
@@ -23,13 +28,15 @@ public class EventList_Adapter extends ArrayAdapter<String> {
     private final Context context;
     private final ArrayList<String> eveName;
     private final ArrayList<String> eveURL;
+    private final ArrayList<String> eveDate;
 
-    public EventList_Adapter(Context context, ArrayList<String> eveName, ArrayList<String> eveURL ) {
+    public EventList_Adapter(Context context, ArrayList<String> eveName, ArrayList<String> eveURL, ArrayList<String> eveDate ) {
         super(context, -1, eveName);
 
         this.context = context;
         this.eveName = eveName;
         this.eveURL = eveURL;
+        this.eveDate = eveDate;
     }
 
     @Override
@@ -50,7 +57,21 @@ public class EventList_Adapter extends ArrayAdapter<String> {
                     .into(eventImage);
         }
         eventView.setText(eveName.get(position));
-        eventDate.setText("Nov 30");
+
+        if (eveDate!= null) {
+            String disDate = eveDate.get(position);
+            Date recDate = null;
+            SimpleDateFormat orignalformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.CANADA);
+            try {
+                recDate = orignalformat.parse(disDate);
+            }catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            SimpleDateFormat displayFormat = new SimpleDateFormat("MMM dd");
+            disDate = displayFormat.format(recDate);
+            eventDate.setText(disDate);
+        }
         return rowView;
     }
 }

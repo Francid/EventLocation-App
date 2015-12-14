@@ -43,26 +43,26 @@ public class Fragment_AllTab extends Fragment {
         switch (callID){
 
             case "Music":
-                adapter = new EventList_Adapter(android.getContext(),db.getEvents("Music"),db.getEventURL());
+                adapter = new EventList_Adapter(android.getContext(),db.getEvents("Music"),db.getEventURL(), db.getEventDate());
                 break;
             case "Cultural":
-                adapter = new EventList_Adapter(android.getContext(),db.getEvents("Cultural"), db.getEventURL());
+                adapter = new EventList_Adapter(android.getContext(),db.getEvents("Cultural"), db.getEventURL(), db.getEventDate());
                 break;
             case "Science":
-                adapter = new EventList_Adapter(android.getContext(),db.getEvents("Science"), db.getEventURL());
+                adapter = new EventList_Adapter(android.getContext(),db.getEvents("Science"), db.getEventURL(),db.getEventDate());
                 break;
             case "Business":
-                adapter = new EventList_Adapter(android.getContext(),db.getEvents("Business"), db.getEventURL());
+                adapter = new EventList_Adapter(android.getContext(),db.getEvents("Business"), db.getEventURL(),db.getEventDate());
                 break;
             case "Arts":
-                adapter = new EventList_Adapter(android.getContext(),db.getEvents("Arts"), db.getEventURL());
+                adapter = new EventList_Adapter(android.getContext(),db.getEvents("Arts"), db.getEventURL(),db.getEventDate());
                 break;
             case "Sports":
-                adapter = new EventList_Adapter(android.getContext(),db.getEvents("Sports"), db.getEventURL());
+                adapter = new EventList_Adapter(android.getContext(),db.getEvents("Sports"), db.getEventURL(),db.getEventDate());
                 break;
             case "PLACES":
                 /*Get the custome Adapter*/
-                adapter = new EventList_Adapter(android.getContext(),placeGenerateData(),null);
+                adapter = new EventList_Adapter(android.getContext(),placeGenerateData(),null, null);
                 break;
             default:
                 break;
@@ -112,9 +112,9 @@ public class Fragment_AllTab extends Fragment {
     }
 
     /* Generate data for the events*/
-    private ArrayList<String> eventGenerateData(){
+    /*private ArrayList<String> eventGenerateData(){
         return db.getEvents(callID);
-    }
+    }*/
 
     /*Generate data for the places*/
     private ArrayList<String> placeGenerateData(){

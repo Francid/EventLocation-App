@@ -186,15 +186,20 @@ public class Database_Class extends SQLiteOpenHelper {
                         d = d.substring(0, d.indexOf(":"));
                     }
                     value.add(d);
+                    eveDate.add(cursor.getString(2));
                 } while (cursor.moveToNext());
             }
         }
-        getEventURL();
+//        getEventURL();
         return value;
     }
 
     protected ArrayList<String> getEventURL(){
         return eveUrl;
+    }
+
+    protected ArrayList<String> getEventDate(){
+        return eveDate;
     }
 
     protected ArrayList<String> getEvents() {
@@ -260,7 +265,8 @@ public class Database_Class extends SQLiteOpenHelper {
 
     protected ArrayList<String> getSavedEvent() {
         ArrayList<String> value = new ArrayList<>();
-        String query = "SELECT SavedName FROM " + SAVED_TABLE;
+        String query = "SELECT s.SavedName, e.ImageUrl, e.EventDate FROM  Saved_Table As s, Events_Table As e " +
+                "WHERE e.EventID = s.SavedID";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
@@ -269,6 +275,8 @@ public class Database_Class extends SQLiteOpenHelper {
             if (cursor.moveToFirst()) {
                 do {
                     value.add(cursor.getString(0));
+                    eveUrl.add(cursor.getString(1));
+                    eveDate.add(cursor.getString(2));
                 } while (cursor.moveToNext());
             }
         }

@@ -33,7 +33,7 @@ public class Fragment_SavedEventsTab extends Fragment {
 
         db = new Database_Class(getContext());
         bundle = new Bundle();
-        adapter = new EventList_Adapter(getContext(),savedDataGenerate(),null);
+        adapter = new EventList_Adapter(getContext(),db.getSavedEvent(),db.getEventURL(),db.getEventDate());
 
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -50,7 +50,7 @@ public class Fragment_SavedEventsTab extends Fragment {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 db.deleteSavedEvent(parent.getItemAtPosition(position).toString());
                 //Re-create the Adapter and set it to the listview
-                adapter = new EventList_Adapter(getContext(),savedDataGenerate(),null);
+                adapter = new EventList_Adapter(getContext(),db.getSavedEvent(),db.getEventURL(),db.getEventDate());
                 listView.setAdapter(adapter);
                 return true;
             }
@@ -58,11 +58,11 @@ public class Fragment_SavedEventsTab extends Fragment {
         return android;
     }
 
-    private ArrayList<String> savedDataGenerate(){
+/*    private ArrayList<String> savedDataGenerate(){
         ArrayList<String> savedList;
         savedList = db.getSavedEvent();
         return  savedList;
-    }
+    }*/
 
     //Open a Detail Fragment of the item clicked
     private void createDetailFragment(){
