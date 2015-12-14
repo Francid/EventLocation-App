@@ -53,6 +53,7 @@ public class BackgroudRun_Service extends IntentService {
     protected void onHandleIntent(Intent intent) {
 
         db = new Database_Class(this);
+        String userLoc = intent.getStringExtra("Location");
         /*Using the Loopj to make an HTTP Get request*/
 
         String categoryUrl = "https://www.eventbriteapi.com/v3/categories/?token=I7YWVEEWKICBN26PI5ES";
@@ -75,7 +76,7 @@ public class BackgroudRun_Service extends IntentService {
 
 //  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-        String url = "https://www.eventbriteapi.com/v3/events/search/?venue.city=Toronto&start_date.keyword=this_month&token=5EVVG7JA2ON7UFJKMTY3";
+        String url = "https://www.eventbriteapi.com/v3/events/search/?venue.city="+userLoc+"&start_date.keyword=this_month&token=5EVVG7JA2ON7UFJKMTY3";
         client.get(url, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {

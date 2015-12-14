@@ -64,9 +64,6 @@ public class WelcomePage_Activity extends AppCompatActivity
         int rowCount = db.getEventsCount();
         Toast.makeText(this,"Events row count: " + rowCount, Toast.LENGTH_LONG).show();*/
 
-        /*Start The Background Process*/
-//        Intent bIntent = new Intent(Intent.ACTION_SYNC,null,this,BackgroudRun_Service.class);
-//        startService(bIntent);
 
         /*client = new AsyncHttpClient();
         db = new Database_Class(this);
@@ -211,7 +208,17 @@ public class WelcomePage_Activity extends AppCompatActivity
 
     public void startNextActivity(View view){
 
+        /*Start The Background Process*/
+        String d = edTxtLocation.getText().toString();
+        if(d.contains(",")){
+            d= d.substring(d.indexOf(",")+2);
+        }
+        Intent bIntent = new Intent(Intent.ACTION_SYNC,null,this,BackgroudRun_Service.class);
+        bIntent.putExtra("Location",d);
+        startService(bIntent);
+
         bundle.putString("MyLocation",edTxtLocation.getText().toString());
+        //Start Next Activity
         Intent intent = new Intent(this,MainActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);

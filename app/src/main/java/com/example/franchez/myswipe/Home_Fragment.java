@@ -24,6 +24,7 @@ import java.util.ArrayList;
 public class Home_Fragment extends Fragment {
     private EditText editTextLocation;
     private CheckBox chkDefault;
+    private Button btRefresh;
     private View homeView;
     private Bundle bundle;
     private android.support.v7.app.ActionBar actionBar;
@@ -42,6 +43,8 @@ public class Home_Fragment extends Fragment {
         editTextLocation = (EditText)homeFrag.findViewById(R.id.homeEditTxtLocation);
         editTextLocation.setEnabled(false);
         editTextLocation.setText(bundle.getString("MyLocation"));
+        btRefresh = (Button)homeFrag.findViewById(R.id.btReload);
+        btRefresh.setEnabled(false);
 
         homeView = homeFrag;
         changeLocation();
@@ -60,9 +63,25 @@ public class Home_Fragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (chkDefault.isChecked()) {
                     editTextLocation.setEnabled(false);
+                    btRefresh.setEnabled(false);
                 } else {
                     editTextLocation.setEnabled(true);
+                    btRefresh.setEnabled(true);
                 }
+            }
+        });
+
+        btRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*Start The Background Process*/
+                String d = editTextLocation.getText().toString();
+                if(d.contains(",")){
+                    d= d.substring(d.indexOf(",")+2);
+                }
+                /*Intent bIntent = new Intent(Intent.ACTION_SYNC,null,this,BackgroudRun_Service.class);
+                bIntent.putExtra("Location",d);
+                startService(bIntent);*/
             }
         });
     }
