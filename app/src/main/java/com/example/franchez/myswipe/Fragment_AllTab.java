@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Franchez on 2015-11-19.
@@ -24,12 +25,15 @@ public class Fragment_AllTab extends Fragment {
     String callID = null;
     private android.support.v7.app.ActionBar actionBar;
     ListView listView;
-    @Override
+    private Bundle dBundle;
+
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         /*Get which button or drawer is click*/
         Bundle bundle = getArguments();
         callID = bundle.getString("ClickID");
+        dBundle = new Bundle();
 
         View android = inflater.inflate(R.layout.fragment_tabs, container, false);
 
@@ -39,26 +43,26 @@ public class Fragment_AllTab extends Fragment {
         switch (callID){
 
             case "Music":
-                adapter = new EventList_Adapter(android.getContext(),eventGenerateData());
+                adapter = new EventList_Adapter(android.getContext(),db.getEvents("Music"),db.getEventURL());
                 break;
             case "Cultural":
-                adapter = new EventList_Adapter(android.getContext(),eventGenerateData());
+                adapter = new EventList_Adapter(android.getContext(),db.getEvents("Cultural"), db.getEventURL());
                 break;
             case "Science":
-                adapter = new EventList_Adapter(android.getContext(),eventGenerateData());
+                adapter = new EventList_Adapter(android.getContext(),db.getEvents("Science"), db.getEventURL());
                 break;
             case "Business":
-                adapter = new EventList_Adapter(android.getContext(),eventGenerateData());
+                adapter = new EventList_Adapter(android.getContext(),db.getEvents("Business"), db.getEventURL());
                 break;
             case "Arts":
-                adapter = new EventList_Adapter(android.getContext(),eventGenerateData());
+                adapter = new EventList_Adapter(android.getContext(),db.getEvents("Arts"), db.getEventURL());
                 break;
             case "Sports":
-                adapter = new EventList_Adapter(android.getContext(),eventGenerateData());
+                adapter = new EventList_Adapter(android.getContext(),db.getEvents("Sports"), db.getEventURL());
                 break;
             case "PLACES":
                 /*Get the custome Adapter*/
-                adapter = new EventList_Adapter(android.getContext(),placeGenerateData());
+                adapter = new EventList_Adapter(android.getContext(),placeGenerateData(),null);
                 break;
             default:
                 break;
@@ -68,6 +72,8 @@ public class Fragment_AllTab extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                dBundle.putString("EventName",parent.getItemAtPosition(position).toString());
+                dBundle.putString("ClickName","EVENTS");
                 createDetailFragment();
             }
         });
@@ -90,6 +96,7 @@ public class Fragment_AllTab extends Fragment {
         Class detailClass = Fragment_Details.class;
         try {
             detailFragment = (Fragment)detailClass.newInstance();
+            detailFragment.setArguments(dBundle);
         }catch (Exception e){
             e.printStackTrace();
         }

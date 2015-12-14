@@ -112,7 +112,7 @@ public class Database_Class extends SQLiteOpenHelper {
         values.put("LocationAdd", venuAdddr.getAddress_1());
         values.put("LocationCity", venuAdddr.getCity());
         values.put("Latitude", venuAdddr.getLatitude());
-        values.put("Longitude", venuAdddr.getCity());
+        values.put("Longitude", venuAdddr.getLongitude());
 
 
         db.insert(LOCATION_TABLE, null, values);
@@ -166,28 +166,35 @@ public class Database_Class extends SQLiteOpenHelper {
         return count;
     }
 
+    ArrayList<String> eveUrl = new ArrayList<>();
+    ArrayList<String> eveDate = new ArrayList<>();
+
     protected ArrayList<String> getEvents(String categoryName) {
         ArrayList<String> value = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String query = "SELECT * FROM Events_Table INNER JOIN Category_Table " +
+        String query = "SELECT Events_Table.ImageUrl, Events_Table.EventName, Events_Table.EventDate FROM Events_Table INNER JOIN Category_Table " +
                 "ON Events_Table.CategoryID = Category_Table.CategoryID " +
                 "WHERE Category_Table.CategoryName LIKE ?";
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(categoryName + "%")});
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 do {
+                    eveUrl.add(cursor.getString(0));
                     String d = cursor.getString(1);
                     if (d.contains(":")) {
                         d = d.substring(0, d.indexOf(":"));
                     }
                     value.add(d);
-//                    value.add(cursor.getString(3));
-
                 } while (cursor.moveToNext());
             }
         }
+        getEventURL();
         return value;
+    }
+
+    protected ArrayList<String> getEventURL(){
+        return eveUrl;
     }
 
     protected ArrayList<String> getEvents() {
@@ -271,30 +278,45 @@ public class Database_Class extends SQLiteOpenHelper {
     protected void deleteSavedEvent(String eventName) {
 
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(SAVED_TABLE, "SavedName Like ?", new String[]{String.valueOf(eventName)});
+        db.delete(SAVED_TABLE, "SavedName Like ?", new String[]{String.valueOf(eventName+"%")});
     }
 
     /*Query for the Detail fragment*/
     protected ArrayList<String> getDetails(String name, String clickName) {
-
+        String query = null;
         ArrayList<String> value = new ArrayList<>();
-        String query = "SELECT e.EventName, e.EventDate, c.CategoryName, e.EventUrl, e.EventDescription, " +
-                "l.LocationAdd, l.LocationCity, l.Latitude, l.Longitude " +
-                "FROM Events_Table AS e, Location_Table AS l, Saved_Table AS s, Category_Table AS c " +
-                "WHERE e.EventID = s.SavedID " +
-                "AND e.EventLocation = l.LocationID " +
-                "AND e.CategoryID = c.CategoryID " +
-                "AND s.SavedName LIKE ?";
+
+        switch (clickName){
+            case "SAVED":
+                 query = "SELECT e.EventName, e.EventDate, c.CategoryName, e.EventUrl, e.EventDescription, " +
+                        "l.LocationAdd, l.LocationCity, l.Latitude, l.Longitude " +
+                        "FROM Events_Table AS e, Location_Table AS l, Saved_Table AS s, Category_Table AS c " +
+                        "WHERE e.EventID = s.SavedID " +
+                        "AND e.EventLocation = l.LocationID " +
+                        "AND e.CategoryID = c.CategoryID " +
+                        "AND s.SavedName LIKE ?";
+                break;
+            case "EVENTS":
+                query = "SELECT e.EventName, e.EventDate, c.CategoryName, e.EventUrl, e.EventDescription, " +
+                        "l.LocationAdd, l.LocationCity, l.Latitude, l.Longitude " +
+                        "FROM Events_Table AS e, Location_Table AS l, Category_Table AS c " +
+                        "WHERE e.EventLocation = l.LocationID " +
+                        "AND e.CategoryID = c.CategoryID " +
+                        "AND e.EventName LIKE ?";
+                break;
+            default:
+                break;
+        }
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(name)});
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(name + "%")});
 
         if (cursor != null) {
             cursor.moveToFirst();
             int columncount = cursor.getColumnCount();
 
             for (int a = 0; a < columncount; a++) {
-                value.add(cursor.getString(a).toString());
+                value.add(cursor.getString(a));
             }
         }
         return value;

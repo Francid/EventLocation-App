@@ -45,7 +45,7 @@ public class Home_Fragment extends Fragment {
 
         homeView = homeFrag;
         changeLocation();
-        setListviewData();
+//        setListviewData();
 
         //LocationDetection_Class detection_class = new LocationDetection_Class(homeFrag.getContext());
         return homeFrag;
@@ -71,7 +71,8 @@ public class Home_Fragment extends Fragment {
     private void setListviewData(){
         ListView listView = (ListView)homeView.findViewById(R.id.homeLstVwItems);
 
-        adapter = new EventList_Adapter(homeView.getContext(),generateData());
+        adapter = new EventList_Adapter(homeView.getContext(),generateData(),null);
+
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

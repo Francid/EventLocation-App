@@ -29,17 +29,18 @@ public class Fragment_SavedEventsTab extends Fragment {
                              Bundle savedInstanceState) {
 
         View android = inflater.inflate(R.layout.fragment_tabs, container, false);
-//        ((TextView)android.findViewById(R.id.textView)).setText("Eevents Saved");
         listView = (ListView)android.findViewById(R.id.listAndroid);
+
         db = new Database_Class(getContext());
         bundle = new Bundle();
-        adapter = new EventList_Adapter(getContext(),savedDataGenerate());
+        adapter = new EventList_Adapter(getContext(),savedDataGenerate(),null);
 
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 bundle.putString("EventName",parent.getItemAtPosition(position).toString());
+                bundle.putString("ClickName","SAVED");
                 createDetailFragment();
             }
         });
@@ -49,7 +50,7 @@ public class Fragment_SavedEventsTab extends Fragment {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 db.deleteSavedEvent(parent.getItemAtPosition(position).toString());
                 //Re-create the Adapter and set it to the listview
-                adapter = new EventList_Adapter(getContext(),savedDataGenerate());
+                adapter = new EventList_Adapter(getContext(),savedDataGenerate(),null);
                 listView.setAdapter(adapter);
                 return true;
             }
