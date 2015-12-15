@@ -48,7 +48,7 @@ public class Home_Fragment extends Fragment {
 
         homeView = homeFrag;
         changeLocation();
-//        setListviewData();
+        setListviewData();
 
         //LocationDetection_Class detection_class = new LocationDetection_Class(homeFrag.getContext());
         return homeFrag;
@@ -134,14 +134,4 @@ public class Home_Fragment extends Fragment {
         return item;
     }
 
-    private void searchEvents(){
-        Button btReload = (Button)homeView.findViewById(R.id.btReload);
-        btReload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String userEntry = editTextLocation.getText().toString();
-
-            }
-        });
-    }
 }

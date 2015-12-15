@@ -98,7 +98,7 @@ public class BackgroudRun_Service extends IntentService {
                             String venueStr = new String(responseBody);
                             gson = new Gson();
                             eventVenueClass = gson.fromJson(venueStr, EventBrite_Venue_Class.class);
-                            db.insertLocation(eventVenueClass);
+                            db.insertLocation(eventVenueClass, null);
                             System.out.print("Start Insert to the Venue Database");
                         }
 

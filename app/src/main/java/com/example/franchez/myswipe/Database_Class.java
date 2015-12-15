@@ -101,18 +101,30 @@ public class Database_Class extends SQLiteOpenHelper {
     }
 
     /*Insert Data into LocationTable*/
-    protected void insertLocation(EventBrite_Venue_Class venue) {
+    protected void insertLocation(EventBrite_Venue_Class venue, GooglePLace_Details_Class.ResultEntity placesVenue) {
         SQLiteDatabase db = this.getWritableDatabase();
-
-        EventBrite_Venue_Class.AddressEntity venuAdddr = venue.getAddress();
-
         ContentValues values = new ContentValues();
-        values.put("LocationID", venue.getId());
-        values.put("LocationName", venue.getName());
-        values.put("LocationAdd", venuAdddr.getAddress_1());
-        values.put("LocationCity", venuAdddr.getCity());
-        values.put("Latitude", venuAdddr.getLatitude());
-        values.put("Longitude", venuAdddr.getLongitude());
+
+        if (venue != null) {
+            EventBrite_Venue_Class.AddressEntity venuAdddr = venue.getAddress();
+
+            values.put("LocationID", venue.getId());
+            values.put("LocationName", venue.getName());
+            values.put("LocationAdd", venuAdddr.getAddress_1());
+            values.put("LocationCity", venuAdddr.getCity());
+            values.put("Latitude", venuAdddr.getLatitude());
+            values.put("Longitude", venuAdddr.getLongitude());
+        }else {
+            GooglePLace_Details_Class.ResultEntity.GeometryEntity.LocationEntity placeLoc = placesVenue.getGeometry().getLocation();
+            List <GooglePLace_Details_Class.ResultEntity.AddressComponentsEntity> placeAddComp = placesVenue.getAddress_components();
+
+            values.put("LocationID", placesVenue.getId());
+            values.put("LocationName", placesVenue.getName());
+            values.put("LocationAdd", placesVenue.getFormatted_address());
+            values.put("LocationCity", placeAddComp.get(2).getShort_name());
+            values.put("Latitude", placeLoc.getLat());
+            values.put("Longitude", placeLoc.getLng());
+        }
 
 
         db.insert(LOCATION_TABLE, null, values);
@@ -244,8 +256,32 @@ public class Database_Class extends SQLiteOpenHelper {
         return value;
     }
 
+    /*+ "PlaceID      INTEGER PRIMARY KEY, "
+            + "PLaceName    TEXT, "
+            + "PlaceLocation TEXT, "
+            + "PlaceDescription TEXT, "
+            + "PlaceUrl         TEXT, "
+            + "PlaceImageUrl    TEXT, "
+            + "FOREIGN KEY(PlaceLocation) REFERENCES " + LOCATION_TABLE + " (LocationID) "
+            + " )";*/
+
     /*Insert Data into Places Table*/
-    protected void insertPlaces() {
+    protected void insertPlaces(GooglePLace_Details_Class.ResultEntity place, List<GooglePlace_Search_Class.ResultsEntity.PhotosEntity> placePhoto ) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        String photoUrl = null;
+        if(placePhoto != null){
+            photoUrl = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=80&photoreference=" + placePhoto.get(0).getPhoto_reference() + "&key=YOUR_API_KEYAIzaSyA7M_tHKRaRgXjtsc6CnlyW6-X9BYkFQ1U";
+        }
+        values.put("PLaceName", place.getPlace_id());
+        values.put("PlaceLocation", place.getId());
+        values.put("PlaceDescription", "null");
+        values.put("PlaceUrl",place.getUrl());
+        values.put("PlaceImageUrl", photoUrl);
+
+        db.insert(PLACES_TABLE, null, values);
+        db.close();
     }
 
     /*Insert the events or places saved by user*/

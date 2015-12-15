@@ -42,6 +42,8 @@
         <service
             android:name=".BackgroudRun_Service"
             android:exported="false" />
+        <service android:name=".GooglePlace_BackgroudRun_Service"
+            android:exported="false" />
     </application>
 
 </manifest>

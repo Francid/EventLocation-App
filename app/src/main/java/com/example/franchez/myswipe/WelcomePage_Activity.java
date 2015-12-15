@@ -126,6 +126,9 @@ public class WelcomePage_Activity extends AppCompatActivity
                 latitude = userLocation.getLatitude();
                 longitude = userLocation.getLongitude();
 
+                bundle.putDouble("Latitude",latitude);
+                bundle.putDouble("Longitude",longitude);
+
                 List<Address> uList = geocoder.getFromLocation(latitude, longitude, 3);
 
                 Address mAddress = uList.get(0);
@@ -208,14 +211,18 @@ public class WelcomePage_Activity extends AppCompatActivity
 
     public void startNextActivity(View view){
 
+        /* Start GooglePlace BackgroundRun Service**/
+        /*Intent gIntent = new Intent(Intent.ACTION_SYNC, null, this, GooglePlace_BackgroudRun_Service.class);
+        gIntent.putExtras(bundle);
+        startService(gIntent);*/
         /*Start The Background Process*/
         String d = edTxtLocation.getText().toString();
         if(d.contains(",")){
             d= d.substring(d.indexOf(",")+2);
         }
-        Intent bIntent = new Intent(Intent.ACTION_SYNC,null,this,BackgroudRun_Service.class);
+        /*Intent bIntent = new Intent(Intent.ACTION_SYNC,null,this,BackgroudRun_Service.class);
         bIntent.putExtra("Location",d);
-        startService(bIntent);
+        startService(bIntent);*/
 
         bundle.putString("MyLocation",edTxtLocation.getText().toString());
         //Start Next Activity
