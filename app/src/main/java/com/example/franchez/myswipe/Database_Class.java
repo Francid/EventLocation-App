@@ -263,7 +263,7 @@ public class Database_Class extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         String photoUrl = null;
         if(placePhoto != null){
-            photoUrl = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=100&maxheight=50&photoreference=" + placePhoto.get(0).getPhoto_reference() + "&key=YOUR_API_KEYAIzaSyA7M_tHKRaRgXjtsc6CnlyW6-X9BYkFQ1U";
+            photoUrl = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=100&maxheight=50&photoreference=" + placePhoto.get(0).getPhoto_reference() + "&key=AIzaSyA7M_tHKRaRgXjtsc6CnlyW6-X9BYkFQ1U";
         }
         values.put("PlaceID",place.getId());
         values.put("PLaceName", place.getName());

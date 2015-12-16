@@ -20,12 +20,13 @@ import java.util.List;
  */
 public class Fragment_AllTab extends Fragment {
 
-    EventList_Adapter adapter;
-    Database_Class db;
-    String callID = null;
+    private EventList_Adapter adapter;
+    private Database_Class db;
+    private String callID = null;
     private android.support.v7.app.ActionBar actionBar;
-    ListView listView;
+    private ListView listView;
     private Bundle dBundle;
+    private String d = null;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,25 +45,32 @@ public class Fragment_AllTab extends Fragment {
 
             case "Music":
                 adapter = new EventList_Adapter(android.getContext(),db.getEvents("Music"),db.getEventURL(), db.getEventDate());
+                d = "event";
                 break;
             case "Cultural":
                 adapter = new EventList_Adapter(android.getContext(),db.getEvents("Cultural"), db.getEventURL(), db.getEventDate());
+                d = "event";
                 break;
             case "Science":
                 adapter = new EventList_Adapter(android.getContext(),db.getEvents("Science"), db.getEventURL(),db.getEventDate());
+                d = "event";
                 break;
             case "Business":
                 adapter = new EventList_Adapter(android.getContext(),db.getEvents("Business"), db.getEventURL(),db.getEventDate());
+                d = "event";
                 break;
             case "Arts":
                 adapter = new EventList_Adapter(android.getContext(),db.getEvents("Arts"), db.getEventURL(),db.getEventDate());
+                d = "event";
                 break;
             case "Sports":
                 adapter = new EventList_Adapter(android.getContext(),db.getEvents("Sports"), db.getEventURL(),db.getEventDate());
+                d = "event";
                 break;
             case "PLACES":
                 /*Get the custome Adapter*/
                 adapter = new EventList_Adapter(android.getContext(),db.getPlaces(),db.getEventURL(), null);
+                d = "places";
                 break;
             default:
                 break;
@@ -72,9 +80,11 @@ public class Fragment_AllTab extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                dBundle.putString("EventName",parent.getItemAtPosition(position).toString());
-                dBundle.putString("ClickName","EVENTS");
-                createDetailFragment();
+                if (d != "places") {
+                    dBundle.putString("EventName", parent.getItemAtPosition(position).toString());
+                    dBundle.putString("ClickName", "EVENTS");
+                    createDetailFragment();
+                }
             }
         });
 
@@ -82,7 +92,7 @@ public class Fragment_AllTab extends Fragment {
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                String e = (String)parent.getItemAtPosition(position);
+                String e = (String) parent.getItemAtPosition(position);
                 db.setSavedEvents(e);
                 return true;
             }
