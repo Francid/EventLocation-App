@@ -51,7 +51,7 @@ public class EventList_Adapter extends ArrayAdapter<String> {
         TextView eventDate = (TextView)rowView.findViewById(R.id.eventDate_view);
 
 
-        if (eveURL != null) {
+        if (eveURL != null && eveURL.get(position) != null) {
             Picasso.with(context)
                     .load(eveURL.get(position))
                     .into(eventImage);

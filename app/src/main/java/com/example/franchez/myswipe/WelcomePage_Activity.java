@@ -60,9 +60,9 @@ public class WelcomePage_Activity extends AppCompatActivity
         //displayUserLocation();
         userSetDefLoc();
 
-        /*Database_Class db = new Database_Class(this);
+        Database_Class db = new Database_Class(this);
         int rowCount = db.getEventsCount();
-        Toast.makeText(this,"Events row count: " + rowCount, Toast.LENGTH_LONG).show();*/
+        Toast.makeText(this,"Events row count: " + rowCount, Toast.LENGTH_LONG).show();
 
 
         /*client = new AsyncHttpClient();
@@ -212,7 +212,7 @@ public class WelcomePage_Activity extends AppCompatActivity
     public void startNextActivity(View view){
 
         /* Start GooglePlace BackgroundRun Service**/
-        /*Intent gIntent = new Intent(Intent.ACTION_SYNC, null, this, GooglePlace_BackgroudRun_Service.class);
+       /* Intent gIntent = new Intent(Intent.ACTION_SYNC, null, this, GooglePlace_BackgroudRun_Service.class);
         gIntent.putExtras(bundle);
         startService(gIntent);*/
         /*Start The Background Process*/

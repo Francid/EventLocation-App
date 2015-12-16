@@ -62,7 +62,7 @@ public class Fragment_AllTab extends Fragment {
                 break;
             case "PLACES":
                 /*Get the custome Adapter*/
-                adapter = new EventList_Adapter(android.getContext(),placeGenerateData(),null, null);
+                adapter = new EventList_Adapter(android.getContext(),db.getPlaces(),db.getEventURL(), null);
                 break;
             default:
                 break;

@@ -64,7 +64,7 @@ public class Database_Class extends SQLiteOpenHelper {
     //Create placesTable statement
     private static final String CREATE_TABLE_PLACES = "CREATE TABLE " + PLACES_TABLE
             + " ( "
-            + "PlaceID      INTEGER PRIMARY KEY, "
+            + "PlaceID      TEXT PRIMARY KEY, "
             + "PLaceName    TEXT, "
             + "PlaceLocation TEXT, "
             + "PlaceDescription TEXT, "
@@ -118,7 +118,7 @@ public class Database_Class extends SQLiteOpenHelper {
             GooglePLace_Details_Class.ResultEntity.GeometryEntity.LocationEntity placeLoc = placesVenue.getGeometry().getLocation();
             List <GooglePLace_Details_Class.ResultEntity.AddressComponentsEntity> placeAddComp = placesVenue.getAddress_components();
 
-            values.put("LocationID", placesVenue.getId());
+            values.put("LocationID", placesVenue.getPlace_id());
             values.put("LocationName", placesVenue.getName());
             values.put("LocationAdd", placesVenue.getFormatted_address());
             values.put("LocationCity", placeAddComp.get(2).getShort_name());
@@ -169,7 +169,7 @@ public class Database_Class extends SQLiteOpenHelper {
     }
 
     protected int getEventsCount() {
-        String countQuery = "SELECT * FROM " + CATEGORY_TABLE;
+        String countQuery = "SELECT * FROM " + PLACES_TABLE;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
         int count = cursor.getCount();
@@ -256,15 +256,6 @@ public class Database_Class extends SQLiteOpenHelper {
         return value;
     }
 
-    /*+ "PlaceID      INTEGER PRIMARY KEY, "
-            + "PLaceName    TEXT, "
-            + "PlaceLocation TEXT, "
-            + "PlaceDescription TEXT, "
-            + "PlaceUrl         TEXT, "
-            + "PlaceImageUrl    TEXT, "
-            + "FOREIGN KEY(PlaceLocation) REFERENCES " + LOCATION_TABLE + " (LocationID) "
-            + " )";*/
-
     /*Insert Data into Places Table*/
     protected void insertPlaces(GooglePLace_Details_Class.ResultEntity place, List<GooglePlace_Search_Class.ResultsEntity.PhotosEntity> placePhoto ) {
 
@@ -272,10 +263,11 @@ public class Database_Class extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         String photoUrl = null;
         if(placePhoto != null){
-            photoUrl = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=80&photoreference=" + placePhoto.get(0).getPhoto_reference() + "&key=YOUR_API_KEYAIzaSyA7M_tHKRaRgXjtsc6CnlyW6-X9BYkFQ1U";
+            photoUrl = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=100&maxheight=50&photoreference=" + placePhoto.get(0).getPhoto_reference() + "&key=YOUR_API_KEYAIzaSyA7M_tHKRaRgXjtsc6CnlyW6-X9BYkFQ1U";
         }
-        values.put("PLaceName", place.getPlace_id());
-        values.put("PlaceLocation", place.getId());
+        values.put("PlaceID",place.getId());
+        values.put("PLaceName", place.getName());
+        values.put("PlaceLocation", place.getPlace_id());
         values.put("PlaceDescription", "null");
         values.put("PlaceUrl",place.getUrl());
         values.put("PlaceImageUrl", photoUrl);
@@ -361,6 +353,24 @@ public class Database_Class extends SQLiteOpenHelper {
 
             for (int a = 0; a < columncount; a++) {
                 value.add(cursor.getString(a));
+            }
+        }
+        return value;
+    }
+
+    /*Get PLaces*/
+    protected ArrayList<String> getPlaces(){
+        ArrayList<String> value = new ArrayList<>();
+        String query="SELECT PLaceName, PlaceImageUrl FROM Places_Table ";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+
+        if (cursor != null){
+            if(cursor.moveToFirst()){
+                do {
+                    value.add(cursor.getString(0));
+                    eveUrl.add(cursor.getString(1));
+                }while (cursor.moveToNext());
             }
         }
         return value;
